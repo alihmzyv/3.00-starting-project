@@ -1,0 +1,10 @@
+insert into student (id, firstname, lastname, email_address) values (2, 'Vasilis', 'Dmych', 'vdmych0@github.io');
+insert into student (id, firstname, lastname, email_address) values (3, 'Colby', 'Beneze', 'cbeneze1@trellian.com');
+insert into student (id, firstname, lastname, email_address) values (4, 'Lindsey', 'Wavish', 'lwavish2@nih.gov');
+insert into student (id, firstname, lastname, email_address) values (5, 'Filbert', 'Darridon', 'fdarridon3@ehow.com');
+insert into student (id, firstname, lastname, email_address) values (6, 'Inger', 'Kerfod', 'ikerfod4@yelp.com');
+insert into student (id, firstname, lastname, email_address) values (7, 'Farra', 'Held', 'fheld5@mlb.com');
+insert into student (id, firstname, lastname, email_address) values (8, 'Bell', 'Sooper', 'bsooper6@cnn.com');
+insert into student (id, firstname, lastname, email_address) values (9, 'Edi', 'Rosell', 'erosell7@hexun.com');
+insert into student (id, firstname, lastname, email_address) values (10, 'Bamby', 'Streeten', 'bstreeten8@skyrock.com');
+insert into student (id, firstname, lastname, email_address) values (11, 'Bartel', 'Morecomb', 'bmorecomb9@delicious.com');
