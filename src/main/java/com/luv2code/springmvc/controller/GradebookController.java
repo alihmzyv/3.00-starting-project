@@ -33,6 +33,9 @@ public class GradebookController {
 
 	@GetMapping("/delete/student/{id}")
 	public String deleteStudent(@PathVariable Integer id, Model m) {
+		if (!studentService.studentExistsById(id)) {
+			return "error";
+		}
 		studentService.deleteStudentById(id);
 		m.addAttribute("students", studentService.findAll());
 		return "index";
