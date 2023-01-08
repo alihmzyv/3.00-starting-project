@@ -57,12 +57,12 @@ public class StudentAndGradesServiceTest {
         assertFalse(collegeStudentRepo.existsById(1), "Student should have been deleted.");
     }
 
-    @Sql("/test/sql/data1.sql")
+    @Sql("/test/sql/services_data.sql")
     @Test
     void testFindAll() { //impractical actually
         Iterable<CollegeStudent> iterable = studentService.findAll();//impractical actually
         int count = 0;
-        for (CollegeStudent student: iterable) {
+        for (CollegeStudent student : iterable) {
             count++;
         }
         assertEquals(11, count);
