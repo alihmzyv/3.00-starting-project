@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -25,9 +26,14 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 
 @AutoConfigureMockMvc
 @SpringBootTest
+@SqlGroup({
+        @Sql(scripts = {"/test/sql/controllers_data.sql"}, executionPhase = BEFORE_TEST_METHOD),
+        @Sql(scripts = {"/test/sql/clean_student_table.sql"}, executionPhase = AFTER_TEST_METHOD)})
 class GradebookControllerTest {
     private static MockHttpServletRequest createStudentReq;
 
@@ -47,6 +53,7 @@ class GradebookControllerTest {
         createStudentReq.addParameter("lastname", "Darby");
         createStudentReq.addParameter("emailAddress", "alihmzyv@gmail.com");
     }
+
 
     @Test
     void testGetStudents1() throws Exception {
@@ -81,7 +88,6 @@ class GradebookControllerTest {
     }
 
     @Test
-    @Sql("/test/sql/controllers_data.sql")
     void testDeleteStudent() throws Exception {
         assertTrue(studentRepo.existsById(1));
         MvcResult mvcResult = mockMvc
@@ -92,5 +98,17 @@ class GradebookControllerTest {
         ModelAndView mav = mvcResult.getModelAndView();
         assert mav != null;
         ModelAndViewAssert.assertViewName(mav, "index");
+    }
+
+    @Test
+    void testDeleteStudentNotFoundId() throws Exception {
+        assertFalse(studentRepo.existsById(32));
+        MvcResult mvcResult = mockMvc
+                .perform(MockMvcRequestBuilders.get("/delete/student/{id}", 31)) //actually wrong to use get for delete
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+        ModelAndView mav = mvcResult.getModelAndView();
+        assert mav != null;
+        ModelAndViewAssert.assertViewName(mav, "error");
     }
 }
